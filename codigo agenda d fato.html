@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = "codigo agenda.css"
+    <title>Gerenciador de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="date"],
+        input[type="time"],
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            flex: 1;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .table {
+            display: grid;
+            grid-template-columns: auto repeat(7, 1fr);
+        }
+        .table-header,
+        .table-cell {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .task input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Tarefas</h1>
+
+        <form id="taskForm">
+            <label for="taskDate">Data:</label>
+            <input type="date" id="taskDate">
+            <label for="taskTime">Horário:</label>
+            <input type="time" id="taskTime">
+            <label for="taskDescription">Descrição:</label>
+            <input type="text" id="taskDescription">
+            <button type="button" onclick="addTask()">Adicionar Tarefa</button>
+        </form>
+
+        <h2>Tarefas</h2>
+        <div class="table">
+            <div class="table-header"></div>
+            <div class="table-header">Dom</div>
+            <div class="table-header">Seg</div>
+            <div class="table-header">Ter</div>
+            <div class="table-header">Qua</div>
+            <div class="table-header">Qui</div>
+            <div class="table-header">Sex</div>
+            <div class="table-header">Sáb</div>
+        
+            <!-- Days and tasks will be dynamically added here -->
+
+        </div>
+    </div>
+
+    <script>
+        const taskDateInput = document.getElementById('taskDate');
+        const taskTimeInput = document.getElementById('taskTime');
+        const taskDescriptionInput = document.getElementById('taskDescription');
+        const table = document.querySelector('.table');
+
+        function addTask() {
+            const date = taskDateInput.value;
+            const time = taskTimeInput.value;
+            const description = taskDescriptionInput.value;
+
+            if (date && description) {
+                const dayOfWeek = new Date(date).getDay(); // 0 (Sun) - 6 (Sat)
+                const dayCell = table.children[dayOfWeek + 1];
+
+                const listItem = document.createElement('div');
+                listItem.className = 'task';
+                listItem.innerHTML = `
+                    <input type="checkbox">
+                    <div>${date} ${time}: ${description}</div>
+                    <button onclick="deleteTask(this)">Excluir</button>
+                `;
+                dayCell.appendChild(listItem);
+
+                // Clear input fields
+                taskDateInput.value = '';
+                taskTimeInput.value = '';
+                taskDescriptionInput.value = '';
+            }
+        }
+
+        function deleteTask(button) {
+            const listItem = button.parentElement;
+            listItem.parentNode.removeChild(listItem);
+        }
+        
+        // Populate table with the current month's dates
+        function populateTable() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 1; i <= lastDay; i++) {
+                const dayOfWeek = new Date(year, month, i).getDay();
+                const dayCell = table.children[dayOfWeek + 1];
+                dayCell.innerHTML = `<div class="table-cell">${i}</div>`;
+            }
+        }
+
+        populateTable();
+    </script>
+</body>
+</html>

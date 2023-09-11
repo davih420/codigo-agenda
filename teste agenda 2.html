@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = "codigo agenda.css"
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h1>Agenda do Aluno</h1>
+
+        <form id="taskForm">
+            <label for="taskDate">Data:</label>
+            <input type="date" id="taskDate">
+            <label for="taskTime">Horário:</label>
+            <input type="time" id="taskTime">
+            <label for="taskDescription">Descrição:</label>
+            <input type="text" id="taskDescription">
+            <button type="button" onclick="addTask()">Adicionar Tarefa</button>
+        </form>
+
+        <h2>Tarefas</h2>
+        <div class="table">
+            <div class="table-header"></div>
+            <div class="table-header">Dom</div>
+            <div class="table-header">Seg</div>
+            <div class="table-header">Ter</div>
+            <div class="table-header">Qua</div>
+            <div class="table-header">Qui</div>
+            <div class="table-header">Sex</div>
+            <div class="table-header">Sáb</div>
+        
+            <!-- Days and tasks will be dynamically added here -->
+
+        </div>
+    </div id="calendar"></div>
+
+    <script>
+        const taskDateInput = document.getElementById('taskDate');
+        const taskTimeInput = document.getElementById('taskTime');
+        const taskDescriptionInput = document.getElementById('taskDescription');
+        const table = document.querySelector('.table');
+
+        function addTask() {
+            const date = taskDateInput.value;
+            const time = taskTimeInput.value;
+            const description = taskDescriptionInput.value;
+
+            if (date && description) {
+                const dayOfWeek = new Date(date).getDay(); // 0 (Sun) - 6 (Sat)
+                const dayCell = table.children[dayOfWeek + 1];
+
+                const listItem = document.createElement('div');
+                listItem.className = 'task';
+                listItem.innerHTML = `
+                    <input type="checkbox">
+                    <div>${date} ${time}: ${description}</div>
+                    <button onclick="deleteTask(this)">Excluir</button>
+                `;
+                dayCell.appendChild(listItem);
+
+                // Clear input fields
+                taskDateInput.value = '';
+                taskTimeInput.value = '';
+                taskDescriptionInput.value = '';
+            }
+        }
+
+        function deleteTask(button) {
+            const listItem = button.parentElement;
+            listItem.parentNode.removeChild(listItem);
+        }
+        
+        // Populate table with the current month's dates
+        function populateTable() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 1; i <= lastDay; i++) {
+                const dayOfWeek = new Date(year, month, i).getDay();
+                const dayCell = table.children[dayOfWeek + 1];
+                dayCell.innerHTML = `<div class="table-cell">${i}</div>`;
+            }
+        }
+
+        populateTable();
+    </script>
+</body>
+</html>

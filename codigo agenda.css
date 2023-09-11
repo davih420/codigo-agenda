@@ -1,0 +1,83 @@
+<style.css>
+body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="date"],
+        input[type="time"],
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            flex: 1;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #06E46C;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #65FFCC;
+        }
+        .table {
+            display: grid;
+            grid-template-columns: auto repeat(7, 1fr);
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table-header,
+        .table-cell {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        .task input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
