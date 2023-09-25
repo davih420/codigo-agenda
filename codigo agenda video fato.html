@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COC Planeja</title>
+    <link rel="stylesheet" href="codigo agenda video.css">
+  </head>
+  <body>
+    <div id="title">
+             <h1>COC Planeja</h1>    
+      
+  <div class="header">
+        <div class="image-container">
+          <img src="coc.png" />
+      </div>
+        <div class="content">
+    <div id="container">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton">Próximo</button>
+          <button id="nextButton">Anterior</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Domingo</div>
+        <div>Segunda</div>
+        <div>Terça</div>
+        <div>Quarta</div>
+        <div>Quinta</div>
+        <div>Sexta</div>
+        <div>Sábado</div>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+
+    <div id="newEventModal">
+      <h2>Adicionar evento</h2>
+      <input id="eventTitleInput" placeholder="Nome do evento" />
+      <input id="eventTimeInput" type="time" placeholder="Horário do evento" />
+      <button id="saveButton">Salvar</button>
+      <button id="cancelButton">Cancelar</button>
+    </div>
+
+    <div id="deleteEventModal">
+      <h2>Evento</h2>
+      <p id="eventText"></p>
+      <button id="deleteButton">Desmarcar</button>
+      <button id="closeButton">Fechar</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
+
+    <script src="./codigo agenda video.js"></script>
+  </body>
+</html>
