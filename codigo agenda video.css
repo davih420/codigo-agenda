@@ -1,9 +1,11 @@
 body {
   display: flex;
-  margin-top: 50px;
+  margin-top: 20px;
   justify-content: center;
   background-color: #FFFCFF;
+  overflow-x: hidden;
 }
+
 button {
   width: 75px;
   cursor: pointer;
@@ -14,11 +16,12 @@ button {
   border-radius: 5px;
   color: white;
 }
+
 h1 {
   text-align: center;
   margin-bottom: 20px;
   color: #5BA259;
-  font-size:50px;
+  font-size: 50px;
   font-family: unset;
 }
 
@@ -30,27 +33,56 @@ h1 {
   display: flex;
   justify-content: space-between;
 }
-#header button {
-  background-color:#5BA259;
+
+#img {
+  width: 130px; /* Alteração: ajuste o tamanho conforme necessário */
+  height: auto;
+  object-fit: cover;
 }
+
+#header button {
+  background-color: #5BA259;
+}
+
 #container {
   width: 770px;
 }
+
 #weekdays {
   width: 100%;
   display: flex;
   color: #247BA0;
 }
+
 #weekdays div {
   width: 100px;
   padding: 10px;
 }
+
 #calendar {
   width: 100%;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
 }
+
+#content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px; /* Ajuste a largura das margens conforme necessário */
+}
+
+.barra-flutuante {
+  height: 5px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
+
 .day {
   width: 100px;
   padding: 10px;
@@ -64,13 +96,15 @@ h1 {
   flex-direction: column;
   justify-content: space-between;
 }
+
 .day:hover {
   background-color: #e8faed;
 }
 
 .day + #currentDay {
-  background-color:#e8f4fa;
+  background-color: #e8f4fa;
 }
+
 .event {
   font-size: 10px;
   padding: 3px;
@@ -80,12 +114,15 @@ h1 {
   max-height: 55px;
   overflow: hidden;
 }
+
 .padding {
   cursor: default !important;
   background-color: #AFFFAB !important;
   box-shadow: none !important;
 }
-#newEventModal, #deleteEventModal {
+
+#newEventModal,
+#deleteEventModal {
   display: none;
   z-index: 20;
   padding: 25px;
@@ -95,9 +132,11 @@ h1 {
   width: 350px;
   top: 100px;
   left: calc(50% - 175px);
-  position: absolute;
+  /* position: absolute; Remova esta linha */
+  position: fixed; /* Adicione esta linha */
   font-family: sans-serif;
 }
+
 #eventTitleInput {
   padding: 10px;
   width: 100%;
@@ -108,18 +147,25 @@ h1 {
   border: none;
   box-shadow: 0px 0px 3px gray;
 }
+
 #eventTitleInput.error {
   border: 2px solid red;
 }
-#cancelButton, #deleteButton {
+
+#cancelButton,
+#deleteButton {
   background-color: #d36c6c;
 }
-#saveButton, #closeButton {
+
+#saveButton,
+#closeButton {
   background-color: #92a1d1;
 }
+
 #eventText {
-  font-size: 14px;
+  font-size: 16px;
 }
+
 #modalBackDrop {
   display: none;
   top: 0px;
@@ -127,6 +173,6 @@ h1 {
   z-index: 10;
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  background-color: rgba(0,0,0,0.8);
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
 }
