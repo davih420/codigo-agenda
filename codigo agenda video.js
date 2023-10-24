@@ -1,6 +1,8 @@
+
 let nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
+let ultimaSelecao = {}; // variável que armazenará as informações do último evento selecionado pelo usuário
 
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
@@ -23,18 +25,20 @@ function openModal(date, time) {
   }
 
   backDrop.style.display = 'block';
-  // document.getElementById('deleteButton').addEventListener('click', deleteEvent(date, time));
 }
 
 function selectEvent(date, event) {
   clicked = { date, time: event.time };
   document.getElementById('eventText').innerText = `${event.time}: ${event.title}`;
+  ultimaSelecao = event;
   deleteEventModal.style.display = 'block';
   backDrop.style.display = 'block';
 }
 
 function load() {
   const dt = new Date();
+
+  console.log('Loading events...');
 
   if (nav !== 0) {
     dt.setMonth(new Date().getMonth() + nav);
@@ -60,21 +64,24 @@ function load() {
 
   calendar.innerHTML = '';
 
-  for (let i = 1; i <= paddingDays + daysInMonth; i++) {
+   for (let i = 1; i <= daysInMonth + paddingDays; i++) {
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
 
-    const dayString = `${month + 1}/${i - paddingDays}/${year}`;
-
     if (i > paddingDays) {
-      daySquare.innerText = i - paddingDays;
-      const eventsForDay = events.filter(e => e.date === dayString);
+      const dayNumber = i - paddingDays;
+      daySquare.innerText = dayNumber;
+      const dayString = `${month + 1}/${dayNumber}/${year}`;
+
+      console.log('Checking events for day:', dayString);
+      const eventsForDay = events.filter((e) => e.date === dayString);
 
       if (i - paddingDays === day && nav === 0) {
         daySquare.id = 'currentDay';
       }
 
-      eventsForDay.forEach(event => {
+      eventsForDay.forEach((event) => {
+        console.log('Event found for day:', event);
         const eventDiv = document.createElement('div');
         eventDiv.classList.add('event');
         eventDiv.innerText = `${event.time}: ${event.title}`;
@@ -89,9 +96,12 @@ function load() {
 
     calendar.appendChild(daySquare);
   }
+
+  console.log('Events loaded:', events);
 }
 
 function closeModal() {
+  console.log('Closing modal...');
   eventTitleInput.classList.remove('error');
   eventTimeInput.classList.remove('error');
   newEventModal.style.display = 'none';
@@ -104,8 +114,10 @@ function closeModal() {
 }
 
 function saveEvent() {
+  console.log('Saving event...');
   const time = eventTimeInput.value;
-  if (eventTitleInput.value && time) {
+  if (eventTitleInput.value && time && clicked) {
+    console.log('Event details:', clicked.date, time, eventTitleInput.value);
     eventTitleInput.classList.remove('error');
     eventTimeInput.classList.remove('error');
 
@@ -116,8 +128,9 @@ function saveEvent() {
     });
 
     localStorage.setItem('events', JSON.stringify(events));
+    console.log('Event saved:', events);
     closeModal();
-    load(); // Adiciona essa linha para atualizar a exibição do calendário
+    load();
   } else {
     if (!eventTitleInput.value) {
       eventTitleInput.classList.add('error');
@@ -128,19 +141,23 @@ function saveEvent() {
   }
 }
 
-// function deleteEvent() {
-//   events = events.filter(e => !(e.date === clicked.date && e.time === clicked.time));
-//   localStorage.setItem('events', JSON.stringify(events));
-//   closeModal();
-// }
-function deleteEvent(dataEvento, horaEvento) {
-  events.splice(events.indexOf((evento, index) => { return evento.date === dataEvento && evento.time === horaEvento; }) -1, 1);//remove o produto do array
-  localStorage.setItem("events", JSON.stringify(events));//salava no localstorage
-  closeModal();
-  location.reload();//regarrega a página para atulizar os produtos exibidos
+function deleteEvent() {
+  console.log('Deleting event...');
+  if (ultimaSelecao && ultimaSelecao.date && ultimaSelecao.time) {
+    const indexToRemove = events.findIndex(
+      (e) => e.date === ultimaSelecao.date && e.time === ultimaSelecao.time
+    );
+
+    if (indexToRemove !== -1) {
+      console.log('Event to delete:', events[indexToRemove]);
+      events.splice(indexToRemove, 1);
+      localStorage.setItem('events', JSON.stringify(events));
+      console.log('Event deleted:', events);
+      closeModal();
+      load();
+    }
+  }
 }
-
-
 function initButtons() {
   document.getElementById('nextButton').addEventListener('click', () => {
     nav++;
@@ -154,7 +171,7 @@ function initButtons() {
 
   document.getElementById('saveButton').addEventListener('click', saveEvent);
   document.getElementById('cancelButton').addEventListener('click', closeModal);
-  // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+  document.getElementById('deleteButton').addEventListener('click', deleteEvent);
   document.getElementById('closeButton').addEventListener('click', closeModal);
 }
 
