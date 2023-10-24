@@ -23,6 +23,7 @@ function openModal(date, time) {
   }
 
   backDrop.style.display = 'block';
+  // document.getElementById('deleteButton').addEventListener('click', deleteEvent(date, time));
 }
 
 function selectEvent(date, event) {
@@ -127,10 +128,16 @@ function saveEvent() {
   }
 }
 
-function deleteEvent() {
-  events = events.filter(e => !(e.date === clicked.date && e.time === clicked.time));
-  localStorage.setItem('events', JSON.stringify(events));
+// function deleteEvent() {
+//   events = events.filter(e => !(e.date === clicked.date && e.time === clicked.time));
+//   localStorage.setItem('events', JSON.stringify(events));
+//   closeModal();
+// }
+function deleteEvent(dataEvento, horaEvento) {
+  events.splice(events.indexOf((evento, index) => { return evento.date === dataEvento && evento.time === horaEvento; }) -1, 1);//remove o produto do array
+  localStorage.setItem("events", JSON.stringify(events));//salava no localstorage
   closeModal();
+  location.reload();//regarrega a página para atulizar os produtos exibidos
 }
 
 
@@ -147,7 +154,7 @@ function initButtons() {
 
   document.getElementById('saveButton').addEventListener('click', saveEvent);
   document.getElementById('cancelButton').addEventListener('click', closeModal);
-  document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+  // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
   document.getElementById('closeButton').addEventListener('click', closeModal);
 }
 
